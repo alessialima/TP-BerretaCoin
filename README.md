@@ -1,2 +1,1 @@
-# TP-algo2
-2do tp de algo 2 
+# Trabajo Práctico 2 de Algo 2 - BerretaCoin
