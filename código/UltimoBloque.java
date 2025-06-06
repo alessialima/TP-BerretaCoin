@@ -5,7 +5,6 @@ package aed;
 //(excluyendo de creacion)
 public class UltimoBloque {
     private Transaccion[] tx;
-    private boolean[] txSinHackear;
     private int montoTotalTx;
     private int cantTotalTx;
 
