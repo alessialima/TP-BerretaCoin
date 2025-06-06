@@ -23,7 +23,13 @@ public class Berretacoin {
     }
 
     public int montoMedioUltimoBloque(){
-        throw new UnsupportedOperationException("Implementar!");
+        if  (MontoTotalTx == 0) {
+            return 0;
+        }
+        else {
+            res = MontoTotalTx / CantTotalTx;
+            return res;
+        }
     }
 
     public void hackearTx(){
