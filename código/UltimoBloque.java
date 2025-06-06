@@ -24,4 +24,12 @@ public class UltimoBloque {
         }
     }
     
+    public int MontoTotalTx(){
+        return montoTotalTx;
+    }
+
+    public int CantTotalTx(){
+        return cantTotalTx;
+    }
 }
+
