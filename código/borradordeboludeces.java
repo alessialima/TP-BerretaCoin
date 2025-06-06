@@ -5,28 +5,11 @@ package aed;
 // heap {usuarios}
 
 public class Heap{
-    
-}
+    private Usuarios usuarios; // crear el tipo usuarios ?? (abajo)
 
 
 
-
-
-
-// 
-public class HeapUsuarios {
-    private Nodo _usuario;
-    // modificar 
-
-    private class Nodo{
-        int billetera;
-        int id;
-
-        Nodo(int id) {
-               
-        }
-    }
-
+    // cuando armamos el handle: 
     private class HeapUsuarios_Handle implements Handle<T> { 
         private int id;   
 
@@ -39,4 +22,20 @@ public class HeapUsuarios {
     public Handle<T> handle(){
         return new HeapUsuarios_Handle(); 
     }
+
+
 }
+
+
+// cuando creamos el tipo usuario seria: 
+
+public class Usuarios {
+    private int id; 
+    private int billetera; 
+
+    public Usuarios(int id, int billetera){
+        this.id = id; 
+        this.billetera = billetera;
+    }
+}
+
