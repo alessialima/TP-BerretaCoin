@@ -47,4 +47,8 @@ public class Transaccion implements Comparable<Transaccion> {
     public int id_vendedor() {
         return id_vendedor;
     }
+//agregamos este metodo para poder acceder al id de una transaccion
+    public int id() {
+        return id;
+    }
 }
