@@ -14,7 +14,7 @@ public class Heap{
         private int id;   
 
         // entrada: id 
-        public Nodo obtener(int i){
+        public ??obtener(int i){
             
         }
     }
