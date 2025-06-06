@@ -13,14 +13,27 @@ public class Transaccion implements Comparable<Transaccion> {
         this.monto = monto;
     }
 
+ // Tomamos como prioridad principal la transaccion de mayor monto
+ //y tomamos a la transaccion de mayor id para desempatar casos donde
+ //ambas transacciones sean de igual monto
     @Override
     public int compareTo(Transaccion otro) {
-        throw new UnsupportedOperationException("Implementar!");
+        if (this.monto != otro.monto){
+            return this.monto - otro.monto;
+        }
+        return this.id - otro.id;
     }
-
+// dos transacciones seran iguales si tienen el mismo id
     @Override
     public boolean equals(Object otro){
-        throw new UnsupportedOperationException("Implementar!");
+        if (this == otro){
+            return true;
+        }
+        if (otro == null || getClass() != otro.getClass()){
+            return false;
+        }
+        Transaccion that = (Transaccion) otro;
+        return id == that.id;
     }
 
     public int monto() {
