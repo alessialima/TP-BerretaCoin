@@ -11,25 +11,27 @@ public class Heap{
 
     // cuando armamos el handle: 
     private class HeapUsuarios_Handle implements Handle<T> { 
-        private int id;   
-
-        // entrada: id 
-        public ??obtener(int i){
-            
+        private Usuarios usuarios; // tipo usuario y posicion ? o solo usuario 
+        
+        public obtener(int id){ 
+          return usuarios[id-1]; 
         }
     }
 
     public Handle<T> handle(){
         return new HeapUsuarios_Handle(); 
     }
+}
+// cuando creamos el tipo usuario seria: 
 
+// ??????
+
+public class Usuarios { // array con usuarios ordenados por id i guess 
+    private Usuario usuario;
 
 }
 
-
-// cuando creamos el tipo usuario seria: 
-
-public class Usuarios {
+public class Usuario {
     private int id; 
     private int billetera; 
 
@@ -37,5 +39,6 @@ public class Usuarios {
         this.id = id; 
         this.billetera = billetera;
     }
+
 }
 
