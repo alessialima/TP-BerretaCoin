@@ -50,16 +50,12 @@ public class HeapGenerico<T extends Comparable<T> & HeapHandle> {
     }
     // reordena el heap 'subiendo' en el array
     private void heapifyUp(int indice) {
-        while (indice > 0) {
+        // pedimos en la guarda que el indice sea valido (mayor a la raiz) y que el elemento actual
+        // sea mayor que su padre
+        while (indice > 0 && compare(heapArray.get(indice), heapArray.get(padre(indice))) > 0) {
             int indicePadre = padre(indice);
-            if(compare(heapArray.get(indice), heapArray.get(indicePadre)) >0) {
-                swap(indice, indicePadre);
-                indice = indicePadre;
-            }
-            else {
-                break; // si es mayor que su padre sube, en caso contrario
-                       // usamos break para finalizar el heapify
-            }
+            swap(indice, indicePadre);
+            indice = indicePadre;
         }
     }
     // reordena el heap 'bajando' en el array
