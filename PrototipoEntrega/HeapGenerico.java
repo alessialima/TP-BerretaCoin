@@ -66,8 +66,10 @@ public class HeapGenerico<T extends Comparable<T> & HeapHandle> {
     private void heapifyDown(int indice) {
         int actual = indice;
         int largo = heapArray.size();
+        boolean necesitaCambio = true;
+        // usamos un booleano para cortar el ciclo
 
-        while(true) {
+        while(necesitaCambio) {
             int izq = hijoIzq(actual);
             int der = hijoDer(actual);
             int mayor = actual;
@@ -84,7 +86,7 @@ public class HeapGenerico<T extends Comparable<T> & HeapHandle> {
             }  // en caso de que alguno de los hijos sea mayor a su padre realizamos
                // el swap, caso contrario usamos break para finalizar el heapify
             else {
-                break;
+                necesitaCambio = false;
             }
         }
     }
