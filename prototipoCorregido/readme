@@ -1,0 +1,2 @@
+todos los atributos de las clases son privados y se acceden mediante funciones publicas
+renombre a los handles y algunas funciones para facilitar lectura
