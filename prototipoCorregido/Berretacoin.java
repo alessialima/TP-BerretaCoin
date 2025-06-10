@@ -7,7 +7,7 @@ public class Berretacoin {
     private UltimoBloque ultimoBloque;
     private HeapGenerico<Transaccion> heapTransacciones;
 
-    // 1. Usuario[]: lista fija que contiene handles que apuntan a la ubicacion del usuario dentro del heapUsuarios
+    // 1. Usuario[]: lista fija de usuarios que contiene handles que apuntan a la ubicacion del usuario dentro del heapUsuarios
     // 2. HeapGenerico<Usuario>: array heap que contiene la info de los usuarios (ordenados segun mayor saldo) 
     // mas un handle para mantener actualizada su posicion dentro del heap, y asi encontrarlos en O(1)
     // 3. UltimoBloque: contiene una Lista Enlazada donde cada nodo es una transaccion ordenada por ID, tal cual es recibida en
