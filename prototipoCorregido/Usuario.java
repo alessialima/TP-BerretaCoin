@@ -5,17 +5,17 @@ public class Usuario implements Comparable<Usuario>, HeapHandle {
     private int saldo;
     private int indiceHeap; 
 
-    // primero inicializamos usuario con su id, sueldo y pos en el heap
+    //primero inicializamos usuario con su id, sueldo y posicion en el heap
     public Usuario(int id, int saldo) { 
         this.id = id;
         this.saldo = saldo;
         this.indiceHeap = -1; 
-        // cuando se inserte al usuario dentro del heap,
+        //cuando se inserte al usuario dentro del heap,
         //el handle sera modificado por su correspondiente valor
-        // mas que nada para evitar usos de null
+        //mas que nada para evitar usos de null
     }
 
-    // necesitamos poder comparar usuarios según su id (descendente) y saldo (ascendente)
+    //necesitamos poder comparar usuarios según su id (descendente) y saldo (ascendente)
     @Override
     public int compareTo(Usuario otro) {
         if (this.saldo != otro.saldo) {
@@ -26,19 +26,19 @@ public class Usuario implements Comparable<Usuario>, HeapHandle {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) { // si son iguales en misma pos de memoria y todo son lo mismo asi que true
+        if (this == o) { 
             return true;
         } 
         else {
-            if (o == null || getClass() != o.getClass()) { // si es null o si son de clases ditintas es false
+            if (o == null || getClass() != o.getClass()) { 
                 return false;
             }
-            else { // else: es un usuario pero quiero ver si son el mismo usuario(si tienen mismo id)
+            else { 
                  Usuario usuario = (Usuario) o; 
                  return id == usuario.id;
             }
         }
-    }
+    } // seran distintos solo si 1. o es null, 2. son de distinta clase 3. tienen distinto id 
 
     @Override
     public void indiceHeap(int indice) { // seteamos el indice 
