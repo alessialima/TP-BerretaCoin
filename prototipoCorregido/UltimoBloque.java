@@ -1,9 +1,10 @@
 package aed;
-//en ultimo bloque tendremos la copia de la secuencia de transacciones
-//del ultimo bloque agregado, asi como tambien
-//la suma total de montos y cantidad de transacciones
-//(excluyendo de creacion)
-public class UltimoBloque  { // utl bloquye tiene lista de transacciones (tx) monto total y cantidad total 
+//en el ultimo bloque tendremos:
+//1. la copia de la secuencia de transacciones del ultimo bloque agregado
+//2. la suma total de montos
+//3. cantidad de transacciones (excluyendo de creacion)
+
+public class UltimoBloque  { // ultimo bloquye tiene lista de transacciones (tx), monto total y cantidad total 
     private  ListaEnlazada<Transaccion> listaTx;
     private int montoTotalTx;
     private int cantTotalTx;
@@ -13,7 +14,7 @@ public class UltimoBloque  { // utl bloquye tiene lista de transacciones (tx) mo
         this.montoTotalTx = 0;
         this.cantTotalTx = 0;
     }
-    // iniciamos ultimo bloque con los montos en 0
+    //iniciamos ultimo bloque con los montos en 0
     
     //funciones para obtener los valores de los atributos privados
     public int MontoTotalTx(){
@@ -27,7 +28,7 @@ public class UltimoBloque  { // utl bloquye tiene lista de transacciones (tx) mo
     public ListaEnlazada<Transaccion> obtenerListaTx() {
         return listaTx;
     }  
-    // funciones publicas para poder actualizar los valores privados durante hackeo
+    //funciones publicas para poder actualizar los valores privados durante hackeo
     public void actualizarMontoTotal(int montoHackeado) {
         this.montoTotalTx -=  montoHackeado;
     }
@@ -44,7 +45,7 @@ public class UltimoBloque  { // utl bloquye tiene lista de transacciones (tx) mo
         montoTotalTx += tx.monto();
         cantTotalTx++;
         }
-        // si la transaccion no es de creacion la contamos y agregamos su monto
+        //si la transaccion no es de creacion la contamos y agregamos su monto
     }       
 
     public Transaccion[] arrayTransacciones() {
@@ -56,7 +57,8 @@ public class UltimoBloque  { // utl bloquye tiene lista de transacciones (tx) mo
             seqTx[i++] = iterador.siguiente();
         }
         return seqTx;
-        // pasamos la lista enlazada a un array, como ya estan ordenadas por id es solo ir añadiendo una por una
+        //pasamos la lista enlazada a un array
+        //como ya estan ordenadas por id es solo ir añadiendo una por una
         //lo que tendria complejidad O(n_b)
     }
 
