@@ -2,19 +2,20 @@ package aed;
 import java.util.ArrayList;
 
 public class Berretacoin {
-    private Usuario[] usuarios;
-     //lista fija donde tendremos handles que apunten a la ubicación del usuario dentro de heapUsuarios
-    private HeapGenerico<Usuario> heapUsuarios;
-    //array heap donde mantemos la informacion de los usuarios(ordenados segun mayor saldo) mas un handle para mantener actualizada su posicion
-    //dentro del heap y asi encontrarlos en O(1)
+    private Usuario[] usuarios; 
+    private HeapGenerico<Usuario> heapUsuarios; 
     private UltimoBloque ultimoBloque;
-    // clase que contiene una lista enlazada donde cada nodo es una transaccion ordenada por id tal cual es recibida en
-    //agregarBloque, en nuestra implementacion solo nos interesa mantener la informacion del ultimo bloque de la blockchain
-    //(salvo modificaciones del saldo usuarios realizadas por anteriores bloques), agregar un nuevo bloque elimina la LE anterior
-    //y crea una nueva con las nuevas transacciones, ademas mantenemos dos variables int, una que sea total transacciones y otra
-    // monto total de creaciones (excluyendo posible transaccion de creacion)
     private HeapGenerico<Transaccion> heapTransacciones;
-    // array heap(ordenados segun mayor monto transaccion) donde mantenemos handles que apuntan a los nodos de la lista enlazada 
+
+    // 1. Usuario[]: lista fija que contiene handles que apuntan a la ubicacion del usuario dentro del heapUsuarios
+    // 2. HeapGenerico<Usuario>: array heap que contiene la info de los usuarios (ordenados segun mayor saldo) 
+    // mas un handle para mantener actualizada su posicion dentro del heap, y asi encontrarlos en O(1)
+    // 3. UltimoBloque: contiene una Lista Enlazada donde cada nodo es una transaccion ordenada por ID, tal cual es recibida en
+    // agregarBloque. En nuestra implementacion solo nos interesa mantener la informacion del ultimo bloque de 
+    // la blockchain (salvo modificaciones del saldo usuarios realizados por anteriores bloques). 
+    // Agregar un nuevo bloque elimina la LE anterior y crea una nueva con las nuevas transacciones. Ademas, 
+    // mantenemos dos variables int, donde una es la cantidad de transacciones y otra el monto total de las transacciones (excluyendo posible transaccion de creacion)
+    // 4. HeapGenerico<Transaccion>: array heap (ordenados segun mayor monto transaccion) donde mantenemos handles que apuntan a los nodos de la LE 
     
     public Berretacoin(int n_usuarios){  
         usuarios = new Usuario[n_usuarios];
@@ -28,11 +29,12 @@ public class Berretacoin {
         ultimoBloque = null;
         heapTransacciones = null;
     }
-    //iniciamos BerretaCoin con la creacion de los usuarios, como el parametro es un entero que define solo la cantidad de usuarios
-    // asumimos que sus ids van de 1 en 1 comenzando por el id 1 (id 0 reservado para creacion) e iniciamos a todos con saldo 0
-    //cada usuario estara en el indice (suID -1) para que acceder a su informacion sea O(1), tambien iniciamos el heap de usuarios
-    // que al tener todos usuarios con monto 0 desempatara mediante menor id
-    //luego, agregar n_usuarios tiene costo O(n_usuarios)
+    // iniciamos BerretaCoin con la creacion de los usuarios
+    // como el parametro es un entero que define solo la cantidad total de usuarios, asumimos que los ID se mueven desde el ID: 1 de manera secuencial
+    // reservando el ID: 0 para creacion. Luego, los saldos iniciales seran 0, y cada usuario estara en el indice (suID - 1) para que acceder
+    // a su informacion sera O(1)
+    // iniciamos el heap de usuarios que al tener todos usuarios con monto 0, desempatara mediante el menor ID
+    // agregar n_usuarios tiene costo O(n_usuarios) 
     // iniciamos ultimoBloque y heapTransacciones vacio
 
     public void agregarBloque(Transaccion[] transacciones){
@@ -44,12 +46,12 @@ public class Berretacoin {
                 Usuario comprador = usuarios[tx.id_comprador() - 1]; 
                 comprador.modificarSaldo(comprador.verSaldo() - tx.monto());
                 actualizarHeap(comprador);
-            }
-            //evitamos que intente acceder al usuario 0 dentro del heap para compradores
+            } //evitamos que intente acceder al usuario 0 dentro del heap para compradores
+            
             Usuario vendedor = usuarios[tx.id_vendedor() - 1];
             vendedor.modificarSaldo(vendedor.verSaldo() + tx.monto());
             actualizarHeap(vendedor);
-            //como creacion nunca es vendedor ignoramos esto en vendedores
+            //en el caso de vendedores, ninguno tiene ID: 0
 
             nuevoBloque.agregarTransaccion(tx);
             transaccionesLista.add(tx);
@@ -60,7 +62,7 @@ public class Berretacoin {
         //creamos un heap con las transacciones y las ordenamos por mayor monto
     }
         //por cada transaccion agregada se tendra complejidad 1/2 O(log P) ya que se actualizan en el heap usuarios
-        //1 o 2 usuarios por transaccion, complejidad total O(n_b * logP )
+        //1 o 2 usuarios por transaccion, complejidad total O(n_b * logP)
 
     private void actualizarHeap(Usuario usuario) {
         int indice = usuario.obtenerIndiceHeap();
@@ -78,14 +80,14 @@ public class Berretacoin {
 
     public Transaccion[] txUltimoBloque(){
         return ultimoBloque.arrayTransacciones();
-        //convertimos la lista enlazada de transacciones en un arreglo, como las guardamos por orden de id
+        //convertimos la lista enlazada de transacciones en un arreglo, como las guardamos por orden de ID 
         //y eliminar las transacciones hackeadas es O(1) (contamos con handles que nos indican el nodo de cada transaccion,
         // encontrar y eliminar es O(1)) esta funcion tendra complejidad O(n_b)
     }
 
     public int maximoTenedor(){
         return heapUsuarios.verMaximo().verId();
-        //devolvemos el id del usuario que se encuentra en la raiz del heap usuario, complejidad O(1)
+        //devolvemos el ID del usuario que se encuentra en la raiz del heap usuario, complejidad O(1)
     }
 
     public int montoMedioUltimoBloque(){
@@ -98,11 +100,12 @@ public class Berretacoin {
     }
 
     public void hackearTx(){
-        Transaccion hackeada = heapTransacciones.extraerMaximo(); //robamos la raiz del heap transacciones 
+        Transaccion hackeada = heapTransacciones.extraerMaximo(); //extraemos la raiz del heap transacciones 
         ListaEnlazada.Nodo<Transaccion> nodo = hackeada.obtenerNodoLista(); 
         if (heapTransacciones == null) {
             return;
         } //verificamos que el heap no este vacio para evitar posibles errores
+        
         if (hackeada.id_comprador() != 0) { 
             Usuario comprador = usuarios[hackeada.id_comprador() - 1];
             comprador.modificarSaldo(comprador.verSaldo() + hackeada.monto());
