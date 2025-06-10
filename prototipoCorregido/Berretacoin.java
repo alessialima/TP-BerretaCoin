@@ -100,16 +100,17 @@ public class Berretacoin {
     }
 
     public void hackearTx(){
-        Transaccion hackeada = heapTransacciones.extraerMaximo(); //extraemos la raiz del heap transacciones 
-        ListaEnlazada.Nodo<Transaccion> nodo = hackeada.obtenerNodoLista(); 
         if (heapTransacciones == null) {
             return;
         } //verificamos que el heap no este vacio para evitar posibles errores
-        
+        Transaccion hackeada = heapTransacciones.extraerMaximo(); //robamos la raiz del heap transacciones 
+        ListaEnlazada.Nodo<Transaccion> nodo = hackeada.obtenerNodoLista(); 
         if (hackeada.id_comprador() != 0) { 
             Usuario comprador = usuarios[hackeada.id_comprador() - 1];
             comprador.modificarSaldo(comprador.verSaldo() + hackeada.monto());
             actualizarHeap(comprador); // O(logP)
+            ultimoBloque.actualizarMontoTotal(hackeada.monto());
+            ultimoBloque.actualizarCantTotal();
         }
         
         Usuario vendedor = usuarios[hackeada.id_vendedor() - 1];
@@ -118,10 +119,6 @@ public class Berretacoin {
         //si es de creacion solo actualizamos vendedor, caso contrario a ambos, complejidad total 1/2 O(logP)
         ultimoBloque.obtenerListaTx().eliminarNodo(nodo); // O(1)
         
-        if (hackeada.id_comprador() != 0) {
-            ultimoBloque.actualizarMontoTotal(hackeada.monto());
-            ultimoBloque.actualizarCantTotal();
-        }
         //actualizamos el bloque eliminando el nodo de la transaccion hackeada, restando su monto y su cantidad en caso
         //de no ser creacion
         //tambien se actualizara el heap de transacciones mediante heapify, esto tiene complejidad O(log n_b),
