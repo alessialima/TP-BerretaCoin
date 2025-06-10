@@ -1,12 +1,12 @@
 package aed;
 
-// Usamos como se nos fue aconsejado la ListaEnlazada que realizamos para el taller 3
-//esta fue modificada para poder utilizarse en el tp
+// Usamos, como se nos fue aconsejado, la ListaEnlazada que realizamos para el taller 3
+// que fue modificada para poder utilizarse en el tp
 
 public class ListaEnlazada<T>  {
     private Nodo<T> primero;
     private Nodo<T> ultimo;
-    private int largo;
+    private int longitud;
 
     public interface Iterador<T> {
         boolean haySiguiente();
@@ -44,17 +44,17 @@ public class ListaEnlazada<T>  {
     public ListaEnlazada() {
         primero = null;
         ultimo = null;
-        largo = 0;
+        longitud = 0;
     }
 
     public int longitud() {
-        return largo;
+        return longitud;
     }
 
 
     public Nodo<T> agregarAtras(T elem) {
         Nodo<T> nuevo = new Nodo<>(elem);
-        if(largo == 0){
+        if(longitud == 0){
             primero = nuevo;
             ultimo = nuevo;
         }
@@ -63,7 +63,7 @@ public class ListaEnlazada<T>  {
             ultimo.next = nuevo;
             ultimo = nuevo;
         }
-        largo ++;
+        longitud ++;
         return nuevo;
     }
 
@@ -82,25 +82,25 @@ public class ListaEnlazada<T>  {
             anterior = actual;
             actual = actual.next;
         }
-        if (largo == 1){ // caso quiero eliminar el unico que hay
+        if (longitud == 1){ 
             primero= null;
             ultimo=null;
         }
-        else if(actual == primero){ // caso quiero eliminar el primero (no necesariamene es el unico)
+        else if(actual == primero){ 
             primero = actual.next;
             anterior = null;
         }
-        else if(actual == ultimo){ // quiero eliminar el ultimo
+        else if(actual == ultimo){ 
             ultimo = anterior;
             actual = null;
         }
-        else { // cualq otro caso 
+        else { 
             anterior.next = actual.next;
             actual.last = anterior;
         }
-        largo --;
+        longitud --;
     }
-// anterior operacion elimina por indice pero la que sigue elimina por nodo en si 
+	 
     public void eliminarNodo(Nodo<T> nodo) { 
         if (nodo.last != null) {
             nodo.last.next = nodo.next;
@@ -114,7 +114,7 @@ public class ListaEnlazada<T>  {
         else {
             ultimo = nodo.last;
         }
-        largo --;
+        longitud --;
     }
 
     public void modificarPosicion(int indice, T elem) {
@@ -126,7 +126,7 @@ public class ListaEnlazada<T>  {
     }
 
     public ListaEnlazada(ListaEnlazada<T> lista) {
-        this();  // llama al constructor de esta clase !
+        this();  
         Nodo<T> actual = lista.primero;
         while(actual != null){
             this.agregarAtras(actual.valor);
@@ -150,9 +150,6 @@ public class ListaEnlazada<T>  {
         return lista.toString();
     }
 
-    // iteradores lets go:
-    // lo mismo que antes quiero cambiar el nombre de next y last por temas sumamente subjetivos
-    // no voy a comentar nada pq es literalmente el taller 
     private class ListaIterador implements Iterador<T> {
     	private Nodo<T> next;
         private Nodo<T> last;
