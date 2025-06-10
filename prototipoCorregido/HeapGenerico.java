@@ -99,7 +99,6 @@ public class HeapGenerico<T extends Comparable<T> & HeapHandle> {
     public T extraerMaximo() {
         T maximo = heapArray.get(0);
         T ultimo = heapArray.remove(heapArray.size() -1);
-        maximo.indiceHeap(-1);
 
         if (!heapArray.isEmpty()) {
             heapArray.set(0, ultimo);
