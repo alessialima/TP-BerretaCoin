@@ -1,0 +1,42 @@
+    /// nuestros casos de test
+    @Test
+    public void intentarHackearBloqueVacio() {
+        berretacoin.agregarBloque(transacciones);
+        //hackeamos 3 veces para vaciar bloque
+        berretacoin.hackearTx();
+        berretacoin.hackearTx();
+        berretacoin.hackearTx();
+    
+        // comprobamos que este vacio
+        assertEquals(0, berretacoin.txUltimoBloque().length);
+        assertEquals(0, berretacoin.montoMedioUltimoBloque());
+    
+        // volvemos a hackear
+        berretacoin.hackearTx();
+    
+        // comprobamos que todo sigue igual, sigue igual de bien
+        assertEquals(0, berretacoin.txUltimoBloque().length);
+        assertEquals(0, berretacoin.montoMedioUltimoBloque());
+    }
+
+    @Test
+    public void testAliasingEnTransacciones() {
+        berretacoin.agregarBloque(transacciones2);
+    
+        Transaccion txMax = berretacoin.txMayorValorUltimoBloque();
+        assertEquals(2, txMax.monto());
+    
+        // modificamos externamente la transaccion
+        Transaccion txModificada = new Transaccion(txMax.id(), 999, 999, 999);
+    
+        // chequeamos que los valores sigan iguales
+        assertEquals(2, berretacoin.txMayorValorUltimoBloque().monto());
+    
+        berretacoin.hackearTx();
+    
+        // chequeamos que se hackeo la transaccion original
+        Transaccion[] txsRestantes = berretacoin.txUltimoBloque();
+        assertEquals(2, txsRestantes.length);
+        assertEquals(0, txsRestantes[0].id()); 
+        assertEquals(1, txsRestantes[0].monto());
+    }
